@@ -1,0 +1,6 @@
+div#api_data_container table.table tr th, 
+div#api_data_container table.table tr td {
+  height:50px;
+  vertical-align: middle;
+  text-align: center;
+}
