@@ -1,4 +1,8 @@
-
+/**
+ * Get all the suppliers and their rates
+ * 
+ * We do a synchronous fetch call to get the data 
+ */
 async function getAllSuppliersAndRates() 
 {    
   try {
@@ -18,6 +22,11 @@ async function getAllSuppliersAndRates()
   }
 }
 
+/**
+ * Get the overlapping supplier rates
+ * 
+ * We do a asynchronous fetch call to get the data.
+ */
 function getOverlappingSuppliersAndRates() 
 {  
   const overlapping_supplier_id = $('#overlapping_supplier_id').val();
@@ -42,6 +51,11 @@ function getOverlappingSuppliersAndRates()
   }
 }
 
+/**
+ * Create an table to display the suppliers and the rates.
+ * 
+ * @param {Object} data | list of suppliers and their rates
+ */
 function createAllSuppliersTable(data)
 {  
   if (data.message != undefined && data.message == 'Unauthenticated.') {
@@ -123,6 +137,11 @@ function createAllSuppliersTable(data)
   $('#api_data_container').html(html);
 }
 
+/**
+ * Create an table to display the overlapping suppliers rates.
+ * 
+ * @param {Object} data | list of overlapping supplier rates 
+ */
 function createOverlappingSuppliersTable(data)
 {
   if (data.message != undefined && data.message == 'Unauthenticated.') {
@@ -171,6 +190,9 @@ function createOverlappingSuppliersTable(data)
   $('#api_data_container').html(html_rates);
 }
 
+/**
+ * Show an Authenticatino error when you enter an Invalid token and attempt the API calls.
+ */
 function showAuthenticationFailure()
 {
   var html = `<div class="text-center">
@@ -190,6 +212,12 @@ function showAuthenticationFailure()
   });
 }
 
+/**
+ * Open the Create Token Modal
+ * 
+ * The user will be presented with fields to enter the email and password.
+ * After submit and if the authentication was successfull a new token is presented.
+ */
 function openCreateTokenModal()
 {
   var html = `<div>
@@ -210,55 +238,59 @@ function openCreateTokenModal()
                   </div>
                   <div id="token_error" class="invalid-feedback text-center"></div>
               </div>`;
-        let dialog = bootbox.dialog({
-            title: '<span class="display-5">Create New Token</span>',
-            message: html,
-            size: 'large',
-            buttons: {
-                cancel: {
-                    label: "Cancel",
-                    className: 'btn-secondary',
-                    callback: function(){
-                        console.log('Custom cancel clicked');
-                    }
-                },
-                ok: {
-                    label: "Create New Token",
-                    className: 'btn-success',
-                    callback:  function() {
 
-                      $('#new_token_access').hide();
-                      $('#new_token').val('');
-                      $('#token_error').html('');
-                        
-                      const response_json = fetch("http://127.0.0.1:8000/api/create-token", {
-                          method: "POST",
-                          headers: {
-                              "Content-Type": "application/json",
-                              "Accept": "application/json",
-                          },
-                          body: JSON.stringify({
-                              "email": $('#user_email').val(),
-                              "password": $('#user_password').val()
-                          }),                            
-                      }).then(response => response.json())
-                        .then((data) => {
-                          if (data.status == 'success') {
-                            $('#new_token_access').show();
-                            $('#new_token').val(data.token);
-                          } else if (data.status == 'error') {console.log(data);
-                            $('#token_error').html(data.message);
-                            $('#token_error').show();
-                          }                          
-                        });
+  let dialog = bootbox.dialog({
+      title: '<span class="display-5">Create New Token</span>',
+      message: html,
+      size: 'large',
+      buttons: {
+          cancel: {
+              label: "Cancel",
+              className: 'btn-secondary',
+              callback: function(){
+                  console.log('Custom cancel clicked');
+              }
+          },
+          ok: {
+              label: "Create New Token",
+              className: 'btn-success',
+              callback:  function() {
 
-                        return false;
-                    }
-                }
-            }
-        });
+                $('#new_token_access').hide();
+                $('#new_token').val('');
+                $('#token_error').html('');
+                  
+                const response_json = fetch("http://127.0.0.1:8000/api/create-token", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                    },
+                    body: JSON.stringify({
+                        "email": $('#user_email').val(),
+                        "password": $('#user_password').val()
+                    }),                            
+                }).then(response => response.json())
+                  .then((data) => {
+                    if (data.status == 'success') {
+                      $('#new_token_access').show();
+                      $('#new_token').val(data.token);
+                    } else if (data.status == 'error') {console.log(data);
+                      $('#token_error').html(data.message);
+                      $('#token_error').show();
+                    }                          
+                  });
+
+                  return false;
+              }
+          }
+      }
+  });
 }
 
+/**
+ * Used to copy the newly created token to the clipboard
+ */
 function copyToClipboard()
 {
   var copyText = document.getElementById("new_token");
@@ -267,6 +299,12 @@ function copyToClipboard()
   navigator.clipboard.writeText(copyText.value);
 }
 
+/**
+ * Converts the ISO date time format to a more human readable date time.
+ * 
+ * @param {string} date_iso 
+ * @returns {string} | Date time string
+ */
 function formatDate(date_iso)
 {
   return new Date(date_iso).toLocaleString();
