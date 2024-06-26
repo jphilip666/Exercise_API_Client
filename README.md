@@ -10,10 +10,5 @@ You will need a Token to call these API’s. There is a create token feature on 
 - Download this project from the repository and CD into the root directory.
 - Run the following command to start the Vite development server locally
     - npm run dev
-    - This should start a local server usually something like  http://localhost:5173
+    - This should start a local server
 
-# Postman
-
-To test the API I created some postman requests to make it easier to test it in postman. You can use the link below and then import it in your Postman. You will need the CRUD application running to test it. We will be using http://127.0.0.1:8000 to test the API’s.
-
-https://api.postman.com/collections/11954745-d8f83280-c130-4164-a304-7f74a624ca80?access_key=PMAT-01J18WB6VMW0H2568P9TXRS1TH
