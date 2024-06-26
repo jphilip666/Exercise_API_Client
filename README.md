@@ -1,5 +1,5 @@
 
-## Exercise API Client
+# Exercise API Client
 
 This is a basic HTML/Javascript client side webpage used to access the API and display it to the user.
 One of this API call is done synchronously and the other asynchronously as requested. 
